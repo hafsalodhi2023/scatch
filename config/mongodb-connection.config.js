@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const debug = require("debug");
+const dotenv = require("dotenv");
+dotenv.config();
 
 const debugging = debug("development:config:mongodb-connection");
 const connectDB = async () => {

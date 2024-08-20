@@ -25,7 +25,6 @@ const ownerSchema = mongoose.Schema({
   },
   contact: {
     type: Number,
-    required: true,
   },
   picture: {
     type: String,
@@ -33,7 +32,6 @@ const ownerSchema = mongoose.Schema({
   },
   gstin: {
     type: String,
-    required: true,
   },
 });
 
