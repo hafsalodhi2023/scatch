@@ -8,8 +8,9 @@ const ownerModel = require("../models/owner.model");
 dotenv.config();
 
 // Created a GET request
-Router.get("/", (req, res) => {
-  res.send("Hello Owners!");
+Router.get("/admin", (req, res) => {
+  let success = req.flash("success");
+  res.render("createproducts", { success });
 });
 
 if (process.env.NODE_ENV === "development") {

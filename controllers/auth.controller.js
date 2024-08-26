@@ -1,45 +1,67 @@
 const userModel = require("../models/user.model");
 const bcrypt = require("bcrypt");
 const { generateToken } = require("../utils/generateToken.util");
+const debug = require("debug");
+
+const debugging = debug("development:controller:auth");
 
 module.exports.register = async (req, res) => {
   try {
     const { fullname, email, password } = req.body;
 
     const user = await userModel.findOne({ email });
-    if (user)
-      return res.status(401).send("You already have an account, please login!");
+    if (user) {
+      req.flash("error", "You already have an account, please login!");
+      return res.status(401).redirect("/");
+    }
 
-    bcrypt.genSalt(10, function (err, salt) {
-      bcrypt.hash(password, salt, async function (err, hash) {
-        if (err) return res.status(400).send(err.message);
-        else {
-          const user = await userModel.create({
-            fullname,
-            email,
-            password: hash,
-          });
-          res.status(201).send("User Created Successfully!");
-        }
-      });
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(password, salt);
+
+    const newUser = await userModel.create({
+      fullname,
+      email,
+      password: hash,
     });
-  } catch (err) {
-    res.status(500).send(err.message);
+
+    req.flash("success", "User created successfully!");
+    return res.status(201).redirect("/");
+  } catch (error) {
+    if (error.errors.email.properties.path === "email") {
+      debugging("Error in auth controller:", error); // Updated logging
+      req.flash(
+        "error",
+        `${error.errors.email.properties.value} is not a valid email!`
+      );
+      return res.status(500).redirect("/");
+    }
   }
 };
 
 module.exports.login = async (req, res) => {
   const { email, password } = req.body;
   let user = await userModel.findOne({ email });
-  if (!user) return res.status(401).send("Email or password is incorrect!");
+  if (!user) {
+    req.flash("error", "Email or password is incorrect!");
+    return res.status(401).redirect("/");
+  }
 
   bcrypt.compare(password, user.password, function (err, result) {
     if (result) {
-      let token = generateToken(user);
+      let token = generateToken(email);
       res.cookie("token", token);
-      return res.status(200).send("Login Successful!");
+
+      req.flash("success", "You have logged in successfully!");
+      return res.status(200).redirect("/shop");
     } else {
-      return res.status(401).send("Email or password is incorrect!");
+      req.flash("error", "Email or password is incorrect!");
+      return res.status(401).redirect("/");
     }
   });
+};
+
+module.exports.logout = async (req, res) => {
+  req.flash("error", "You have logged out successfully!");
+  res.cookie("token", "");
+  return res.redirect("/");
 };

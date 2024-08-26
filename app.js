@@ -23,8 +23,6 @@ const indexRouter = require("./routers/index.router"); //Importing Index Router
 app.use(express.json()); // Parsing JSON Data
 app.use(express.urlencoded({ extended: true })); // Parsing URL-Encoded Data
 app.use(cors()); // Enabling Cross-Origin Resource Sharing
-app.use(express.static(path.join(__dirname, "public"))); // Serving Static Files
-app.set("view engine", "ejs"); // Setting View Engine
 app.use(cookieParser()); // Parsing Cookies
 app.use(
   session({
@@ -34,6 +32,8 @@ app.use(
   })
 ); // Initializing Session
 app.use(flash()); // Initializing Flash
+app.use(express.static(path.join(__dirname, "public"))); // Serving Static Files
+app.set("view engine", "ejs"); // Setting View Engine
 
 app.use("/owner", ownerRouter); // Mounting Owner Router
 app.use("/user", userRouter); // Mounting User Router

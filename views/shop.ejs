@@ -22,24 +22,30 @@
     </div>
   </div>
   <div class="w-[75%] flex flex-col gap-5 h-screen">
+    <% if(success.length>0){ %>
+    <div
+      class="error absolute top-5 left-[40%] p-3 bg-green-100 border border-green-500 text-green-600 flex items-center gap-10"
+    >
+      <span class="inline-block"> <%= success %> </span>
+      <i class="fa-solid fa-xmark inline-block cursor-pointer"></i>
+    </div>
+    <% } %>
+    <a
+      href="/user/logout"
+      class="absolute right-5 top-5 px-5 rounded-full py-2 mt-2 bg-blue-500 text-white"
+      >Logout</a
+    >
     <div class="flex items-start gap-5">
-      <% products.forEach(function(product){ %>
       <div class="w-60">
-        <div
-          class="w-full h-52 flex items-center justify-center bg-[<%= product.bgcolor %>]"
-        >
-          <img
-            class="h-[12rem]"
-            src="data:image/jpeg;base64,<%= product.image.toString('base64') %>"
-            alt=""
-          />
+        <div class="w-full h-52 flex items-center justify-center bg-red-500">
+          <img class="h-[12rem]" src="/images/users/default.png" alt="" />
         </div>
         <div
-          class="flex justify-between bg-[<%= product.panelcolor %>] items-center px-4 py-4 text-[<%= product.textcolor %>]"
+          class="flex justify-between bg-blue-500 items-center px-4 py-4 text-white"
         >
           <div>
-            <h3><%= product.name %></h3>
-            <h4>₹ <%= product.price %></h4>
+            <h3>product.name</h3>
+            <h4>₹ product.price</h4>
           </div>
           <a
             class="w-7 h-7 flex items-center justify-center rounded-full bg-white"
@@ -49,7 +55,6 @@
           </a>
         </div>
       </div>
-      <% }) %>
     </div>
   </div>
 </div>
