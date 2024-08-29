@@ -41,8 +41,25 @@ module.exports.register = async (req, res) => {
 module.exports.login = async (req, res) => {
   const { email, password } = req.body;
   let user = await userModel.findOne({ email });
+  let reqUser = await userModel
+    .findOne({ email })
+    .select("-password")
+    .select("-cart")
+    .select("-orders")
+    .select("-picture")
+    .select("-__v")
+    .select("-fullname")
+    .select("-_id");
+
+  req.user = reqUser;
+
   if (!user) {
     req.flash("error", "Email or password is incorrect!");
+    return res.status(401).redirect("/");
+  }
+
+  if (req.cookies.token) {
+    req.flash("error", "You already have logged in!");
     return res.status(401).redirect("/");
   }
 

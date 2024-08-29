@@ -7,7 +7,7 @@ const debugging = debug("development:models:product"); // Debugging
 // Product Schema
 const productSchema = mongoose.Schema({
   image: {
-    type: String,
+    type: Buffer,
     required: true,
   },
   name: {

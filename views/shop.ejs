@@ -4,7 +4,7 @@
     <div class="flex items-center gap-2">
       <h3>sort by</h3>
       <form action="/shop">
-        <select class="border-[1px] px-2 py-1" name="sortby" id="">
+        <select class="border-[1px] px-2 py-1 rounded-full" name="sortby" id="">
           <option value="popular">Popular</option>
           <option value="newest">Newest</option>
         </select>
@@ -30,31 +30,36 @@
       <i class="fa-solid fa-xmark inline-block cursor-pointer"></i>
     </div>
     <% } %>
-    <a
-      href="/user/logout"
-      class="absolute right-5 top-5 px-5 rounded-full py-2 mt-2 bg-blue-500 text-white"
-      >Logout</a
-    >
-    <div class="flex items-start gap-5">
-      <div class="w-60">
-        <div class="w-full h-52 flex items-center justify-center bg-red-500">
-          <img class="h-[12rem]" src="/images/users/default.png" alt="" />
+
+    <div class="flex items-start justify-start flex-wrap gap-14">
+      <% products.forEach(function(product){ %>
+
+      <div class="w-64">
+        <div
+          class="w-full h-60 flex items-center justify-center bg-[<%= product.bgcolor %>]"
+        >
+          <img
+            class="w-40"
+            src="data:image/jpeg;base64,<%= product.image.toString('base64') %>"
+            alt=""
+          />
         </div>
         <div
-          class="flex justify-between bg-blue-500 items-center px-4 py-4 text-white"
+          class="flex justify-between bg-[<%= product.panelcolor %>] items-center px-5 py-4 text-[<%= product.textcolor %>]"
         >
-          <div>
-            <h3>product.name</h3>
-            <h4>₹ product.price</h4>
+          <div class="text-lg">
+            <h3><%= product.name %></h3>
+            <h4>PKR.<b> <%= product.price %></b></h4>
           </div>
           <a
-            class="w-7 h-7 flex items-center justify-center rounded-full bg-white"
-            href=""
+            class="w-7 h-7 flex items-center justify-center rounded-full bg-[<%= product.bgcolor %>]"
+            href="/addtocart/<%= product._id %>"
           >
-            <i class="ri-add-line"></i>
+            <i class="fa-solid fa-plus text-[<%= product.textcolor %>]"></i>
           </a>
         </div>
       </div>
+      <% }) %>
     </div>
   </div>
 </div>

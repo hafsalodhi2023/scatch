@@ -10,7 +10,8 @@ dotenv.config();
 // Created a GET request
 Router.get("/admin", (req, res) => {
   let success = req.flash("success");
-  res.render("createproducts", { success });
+  let error = req.flash("error");
+  res.render("createproducts", { success, error });
 });
 
 if (process.env.NODE_ENV === "development") {

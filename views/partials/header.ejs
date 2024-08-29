@@ -18,7 +18,17 @@
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body class="">
-    <nav class="w-full fixed top-0 left-0 px-10 py-5 font-bold italic">
-      <h3 class="text-5xl text-blue-400"><a href="/">Scatch</a></h3>
+    <nav class="w-full flex justify-between px-10 py-5">
+      <a href="/"
+        ><h3 class="text-5xl text-blue-400 font-bold italic">Scatch</h3></a
+      >
+      <% let loggedin = (typeof loggedIn === 'undefined') ? true : loggedIn; %>
+      <% if (loggedin) { %>
+      <div class="flex gap-10">
+        <a href="/">Home</a>
+        <a href="/shop">Shop</a>
+        <a href="/cart">Cart</a>
+        <a href="/user/logout" class="text-red-500">Logout</a>
+      </div>
+      <% } %>
     </nav>
-  

@@ -1,4 +1,11 @@
-<%- include('./partials/header') %> <% if(success.length>0){ %>
+<%- include('./partials/header') %> <% if(error.length>0){ %>
+<div
+  class="error absolute top-5 left-[40%] p-3 bg-red-100 border border-red-500 text-red-500 flex items-center gap-10"
+>
+  <span class="inline-block"> <%= error %> </span>
+  <i class="fa-solid fa-xmark inline-block cursor-pointer"></i>
+</div>
+<% } %> <% if(success.length>0){ %>
 <div
   class="error absolute top-5 left-[40%] p-3 bg-green-100 border border-green-500 text-green-600 flex items-center gap-10"
 >
@@ -19,7 +26,7 @@
       <h2 class="text-xl font-bold mb-4">Create New Product</h2>
       <form
         autocomplete="off"
-        action="/products/create"
+        action="/product/create"
         method="post"
         enctype="multipart/form-data"
       >
@@ -39,19 +46,19 @@
               name="name"
               type="text"
               placeholder="Product Name"
-              class="border p-2 rounded w-full"
+              class="border p-2 rounded w-full outline-none"
             />
             <input
               name="price"
-              type="text"
+              type="number"
               placeholder="Product Price"
-              class="border p-2 rounded w-full"
+              class="border p-2 rounded w-full outline-none"
             />
             <input
               name="discount"
-              type="text"
+              type="number"
               placeholder="Discount Price"
-              class="border p-2 rounded w-full"
+              class="border p-2 rounded w-full outline-none"
             />
           </div>
         </div>
@@ -63,24 +70,24 @@
               name="bgcolor"
               type="text"
               placeholder="Background Color"
-              class="border p-2 rounded w-full"
+              class="border p-2 rounded w-full outline-none"
             />
             <input
               name="panelcolor"
               type="text"
               placeholder="Panel Color"
-              class="border p-2 rounded w-full"
+              class="border p-2 rounded w-full outline-none"
             />
             <input
               name="textcolor"
               type="text"
               placeholder="Text Color"
-              class="border p-2 rounded w-full"
+              class="border p-2 rounded w-full outline-none"
             />
           </div>
         </div>
         <input
-          class="px-5 py-2 rounded mt-3 bg-blue-500 text-white"
+          class="px-5 py-2 rounded mt-3 bg-blue-500 text-white outline-none"
           type="submit"
           value="Create New Product"
         />
