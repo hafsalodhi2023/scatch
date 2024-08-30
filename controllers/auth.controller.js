@@ -41,17 +41,6 @@ module.exports.register = async (req, res) => {
 module.exports.login = async (req, res) => {
   const { email, password } = req.body;
   let user = await userModel.findOne({ email });
-  let reqUser = await userModel
-    .findOne({ email })
-    .select("-password")
-    .select("-cart")
-    .select("-orders")
-    .select("-picture")
-    .select("-__v")
-    .select("-fullname")
-    .select("-_id");
-
-  req.user = reqUser;
 
   if (!user) {
     req.flash("error", "Email or password is incorrect!");
@@ -65,7 +54,7 @@ module.exports.login = async (req, res) => {
 
   bcrypt.compare(password, user.password, function (err, result) {
     if (result) {
-      let token = generateToken(email);
+      let token = generateToken(user);
       res.cookie("token", token);
 
       req.flash("success", "You have logged in successfully!");
@@ -79,6 +68,6 @@ module.exports.login = async (req, res) => {
 
 module.exports.logout = async (req, res) => {
   req.flash("error", "You have logged out successfully!");
-  res.cookie("token", "");
+  res.clearCookie("token");
   return res.redirect("/");
 };

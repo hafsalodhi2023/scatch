@@ -4,6 +4,7 @@ const Router = express.Router();
 const isloggedin = require("../middlewares/isloggedin.middleware");
 const productModel = require("../models/product.model");
 const userModel = require("../models/user.model");
+const { verifyJWT } = require("../utils/verifyJWT.util");
 
 Router.get("/", (req, res) => {
   let error = req.flash("error");
@@ -19,17 +20,16 @@ Router.get("/shop", isloggedin, async (req, res) => {
 });
 
 Router.get("/addtocart/:productId", isloggedin, async (req, res) => {
-  let user = await userModel.findOne({ user: req.user });
+  const verifiedToken = verifyJWT(req.cookies.token);
+  let user = await userModel.findById(verifiedToken.id);
   user.cart.push(req.params.productId);
   await user.save();
 
-  req.flash("success", "Product added to cart successfully!");
   res.redirect("/shop");
+  req.flash("success", "Product added to cart successfully!");
 });
 
-Router.get("/cart", isloggedin, async (req, res) => {
-  res.render("cart");
-});
+Router.get("/cart", isloggedin, async (req, res) => {});
 
 // Exporting the Router
 module.exports = Router;
